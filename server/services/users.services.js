@@ -3,7 +3,10 @@ const pool = require('../db');
 //Importamos bcrypt
 const bcrypt = require('bcrypt');
 
-//Obtener todos los usuarios
+/**
+ * Funcion para traer todos los usuarios
+ * @returns Todos los usuarios en formato JSON
+ */
 async function getUsers() {
   //Hacemos una query SELECT a la tabla users
   const users = await pool.query(`
@@ -14,7 +17,31 @@ async function getUsers() {
   return res.json(users);
 }
 
-//Insertar un nuevo usuario
+/**
+ * Funcion para traer un usuario por email
+ * @param {String} email 
+ * @returns Un usuario en formato JSON
+ */
+async function getUserByEmail(email) {
+  //Hacemos una query de SELECT y le pasamos como parametro el email
+  const getUser = await pool.query(`
+    SELECT *
+    FROM users
+    WHERE email = '${email}';
+  `);
+  //Retornamos el usuario parseado a JSON
+  return res.json(getUser);
+}
+
+/**
+ * Funcion para insertar un nuevo usuario
+ * @param {String} name 
+ * @param {String} surname 
+ * @param {String} email 
+ * @param {BigInt} phone_number 
+ * @param {String} password 
+ * @returns Nuevo usuario en formato JSON
+ */
 async function postUser(name, surname, email, phone_number, password) {
   //Ciframos la contraseña con bcrypt
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -32,8 +59,12 @@ async function postUser(name, surname, email, phone_number, password) {
   return newUser;
 }
 
-//Exportamos las funciones
+/**
+ * Exporta todas las funciones 
+ * @exports
+ */
 module.exports = {
   getUsers,
+  getUserByEmail,
   postUser
 }

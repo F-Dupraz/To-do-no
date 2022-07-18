@@ -1,7 +1,7 @@
 //Importamos express
 const express = require('express');
 //Importamos el servicio de usuarios
-const { getUsers, postUser } = require('../services/users.services');
+const { getUsers, postUser, getUserByEmail } = require('../services/users.services');
 
 //Creamos el enrutador con express
 const router = express.Router();
@@ -16,6 +16,24 @@ router.get('/', async (req, res, next) => {
     return users;
   }
   //Si hay error
+  catch (err) {
+    //Mostramos el error en consola
+    console.error(err);
+  }
+});
+
+//Hacemos una peticion para traer un usuario por email
+router.get('/', async (req, res, next) => {
+  //Si todo sale bien
+  try {
+    //Requerimos el email del cuerpo de la peticion
+    const body = req.body;
+    //Buscamos un usuario con el getUserByEmail 
+    const user = await getUserByEmail(body.email);
+    //Retornamos el usuario encontrado
+    return user;
+  }
+  //Si hay un error 
   catch (err) {
     //Mostramos el error en consola
     console.error(err);
