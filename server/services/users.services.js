@@ -82,6 +82,27 @@ async function updateUser(name, surname, email) {
 }
 
 /**
+ * Funcion para eliminar un usuario
+ * @param {String} email 
+ * @returns Usuario eliminado parseado a JSON
+ */
+ async function deleteUser(email) {
+  //Hacemos un query de DELETE y filtramos por email
+  const user = await pool.query(`
+    DELETE
+    FROM users
+    WHERE email='${email}'
+    RETURNING *;
+  `);
+  //Parceamos la respuesta a un JSON
+  const deletedUser = res.json(user);
+  //Borramos la contraseña de la respuesta
+  delete deletedUser.password;
+  //Retornamos el usuario eliminado
+  return deletedUser;
+}
+
+/**
  * Exporta todas las funciones 
  * @exports
  */
@@ -89,5 +110,6 @@ module.exports = {
   getUsers,
   getUserByEmail,
   postUser,
-  updateUser
+  updateUser,
+  deleteUser
 }

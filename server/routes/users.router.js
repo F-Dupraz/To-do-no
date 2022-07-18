@@ -1,7 +1,7 @@
 //Importamos express
 const express = require('express');
 //Importamos el servicio de usuarios
-const { getUsers, postUser, getUserByEmail, updateUser } = require('../services/users.services');
+const { getUsers, postUser, getUserByEmail, updateUser, deleteUser } = require('../services/users.services');
 
 //Creamos el enrutador con express
 const router = express.Router();
@@ -67,6 +67,24 @@ router.patch('/', async (req, res, next) => {
     //Actualizamos el usuario
     const user = await updateUser(body.name, body.surname, body.email);
     //Retornamos el usuario ya actualizado
+    return user;
+  }
+  //Si hay error
+  catch (err) {
+    //Mostramos el error en consola
+    console.log(err);
+  }
+});
+
+//Hacemos una peticion para eliminar un usuario
+router.patch('/', async (req, res, next) => {
+  //Si todo sale bien
+  try {
+    //Requerimos el cuerpo de la paticion
+    const body = req.body;
+    //Eliminamos el usuario
+    const user = await deleteUser(body.email);
+    //Retornamos el usuario ya eliminado
     return user;
   }
   //Si hay error
