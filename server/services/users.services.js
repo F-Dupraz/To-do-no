@@ -60,11 +60,34 @@ async function postUser(name, surname, email, phone_number, password) {
 }
 
 /**
+ * Funcion para actualizar un usuario
+ * @param {String} name 
+ * @param {String} surname 
+ * @param {String} email 
+ * @returns Usuario actualizado parseado a JSON
+ */
+async function updateUser(name, surname, email) {
+  //Hacemos un query de UPDATE y filtramos por email
+  const user = await pool.query(`
+    UPDATE users SET name='${name}', surname='${surname}'
+    WHERE email='${email}'
+    RETURNING *;
+  `);
+  //Parceamos la respuesta a un JSON
+  const updatedUser = res.json(user);
+  //Borramos la contraseña de la respuesta
+  delete updatedUser.password;
+  //Retornamos el usuario actualizado
+  return updatedUser;
+}
+
+/**
  * Exporta todas las funciones 
  * @exports
  */
 module.exports = {
   getUsers,
   getUserByEmail,
-  postUser
+  postUser,
+  updateUser
 }
