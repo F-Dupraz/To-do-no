@@ -11,10 +11,27 @@ async function getTodos(id) {
   const todos = await pool.query(`
     SELECT *
     FROM todos
-    WHERE id_users = ${id};
+    WHERE id_users = ${id}
+    ORDER BY creation_date DESC;
   `);
   //Retornamos los todos parseados a un JSON
   return res.json(todos);
+}
+
+/**
+ * Funcion para crear una todo
+ * @param {Text} description 
+ * @param {Integer} id_user 
+ * @returns Una nueva todo ya perseada
+ */
+async function createTodo(description, id_user) {
+  //Hacemos una query de INSERT para agregar una nueva todo
+  const newTodo = await pool.query(`
+    INSERT INTO todos (description, creation_date, id_users)
+    VALUES ('${description}', NOW(), ${id_user});
+  `);
+  //Retornamos la nueva todo parseada a JSON
+  return res.json(newTodo);
 }
 
 /**
@@ -22,5 +39,6 @@ async function getTodos(id) {
  * @exports
  */
 module.exports = {
-  getTodos
+  getTodos,
+  createTodo
 }
