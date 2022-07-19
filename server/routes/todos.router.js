@@ -15,7 +15,7 @@ router.get('/:id/todos', async (req, res, next) => {
     //Buscamos las todos del usuario
     const usersTodos = await getTodos(body.id_users);
     //Retornamos las todos
-    return usersTodos;
+    return res.json(usersTodos);
   }
   //Si hay error
   catch (err) {
@@ -33,7 +33,7 @@ router.post('/:id/todos', async (req, res, next) => {
     //Insertamos una nueva todo con el createTodo
     const newTodo = await createTodo(body.description, body.id_users);
     //Retornamos la todo
-    return newTodo;
+    return res.json(newTodo);
   }
   //Si hay error
   catch (err) {

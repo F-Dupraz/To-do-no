@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
     //Buscamos todos los usuarios por medio del servicio
     const users = await getUsers();
     //Retornamos los usuarios
-    return users;
+    return res.json(users);
   }
   //Si hay error
   catch (err) {
@@ -31,7 +31,7 @@ router.get('/', async (req, res, next) => {
     //Buscamos un usuario con el getUserByEmail 
     const user = await getUserByEmail(body.email);
     //Retornamos el usuario encontrado
-    return user;
+    return res.json(user);
   }
   //Si hay un error 
   catch (err) {
@@ -48,8 +48,12 @@ router.post('/', async (req, res, next) => {
     const body = req.body;
     //Agregamos el nuevo usuario por medio del servicio
     const newUser = await postUser(body.name, body.surname, body.email, body.phone_number, body.password);
-    //Retornamos el nuevo usuario
-    return newUser;
+    //Parceamos la respuesta a un JSON
+    const newUserParsed = res.json(insertUser);
+    //Borramos la contraseña del retorno
+    delete newUserParsed.password;
+    //Retornamos el usuario parseado a JSON
+    return newUserParsed;
   }
   //Si hay error
   catch (err) {
@@ -66,8 +70,12 @@ router.patch('/', async (req, res, next) => {
     const body = req.body;
     //Actualizamos el usuario
     const user = await updateUser(body.name, body.surname, body.email);
+    //Parceamos la respuesta a un JSON
+    const updatedUser = res.json(user);
+    //Borramos la contraseña de la respuesta
+    delete updatedUser.password;
     //Retornamos el usuario ya actualizado
-    return user;
+    return updatedUser;
   }
   //Si hay error
   catch (err) {
@@ -77,15 +85,19 @@ router.patch('/', async (req, res, next) => {
 });
 
 //Hacemos una peticion para eliminar un usuario
-router.patch('/', async (req, res, next) => {
+router.delete('/', async (req, res, next) => {
   //Si todo sale bien
   try {
     //Requerimos el cuerpo de la paticion
     const body = req.body;
     //Eliminamos el usuario
     const user = await deleteUser(body.email);
+    //Parceamos la respuesta a un JSON
+    const deletedUser = res.json(user);
+    //Borramos la contraseña de la respuesta
+    delete deletedUser.password;
     //Retornamos el usuario ya eliminado
-    return user;
+    return deletedUser;
   }
   //Si hay error
   catch (err) {

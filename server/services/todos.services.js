@@ -15,7 +15,7 @@ async function getTodos(id) {
     ORDER BY creation_date DESC;
   `);
   //Retornamos los todos parseados a un JSON
-  return res.json(todos);
+  return todos;
 }
 
 /**
@@ -31,7 +31,7 @@ async function createTodo(description, id_user) {
     VALUES ('${description}', NOW(), ${id_user});
   `);
   //Retornamos la nueva todo parseada a JSON
-  return res.json(newTodo);
+  return newTodo;
 }
 
 /**

@@ -14,7 +14,7 @@ async function getUsers() {
     FROM users;
   `);
   //Retornamos la respuesta parseada en JSON
-  return res.json(users);
+  return users;
 }
 
 /**
@@ -30,7 +30,7 @@ async function getUserByEmail(email) {
     WHERE email = '${email}';
   `);
   //Retornamos el usuario parseado a JSON
-  return res.json(getUser);
+  return getUser;
 }
 
 /**
@@ -51,10 +51,6 @@ async function postUser(name, surname, email, phone_number, password) {
     VALUES (${name}, ${surname}, ${email}, ${phone_number}, ${hashedPassword})
     RETURNING *;
   `);
-  //Parceamos la respuesta a un JSON
-  const newUser = res.json(insertUser);
-  //Borramos la contraseña del retorno
-  delete newUser.password;
   //Retornamos el nuevo usuario
   return newUser;
 }
@@ -73,12 +69,8 @@ async function updateUser(name, surname, email) {
     WHERE email='${email}'
     RETURNING *;
   `);
-  //Parceamos la respuesta a un JSON
-  const updatedUser = res.json(user);
-  //Borramos la contraseña de la respuesta
-  delete updatedUser.password;
   //Retornamos el usuario actualizado
-  return updatedUser;
+  return user;
 }
 
 /**
@@ -94,12 +86,8 @@ async function updateUser(name, surname, email) {
     WHERE email='${email}'
     RETURNING *;
   `);
-  //Parceamos la respuesta a un JSON
-  const deletedUser = res.json(user);
-  //Borramos la contraseña de la respuesta
-  delete deletedUser.password;
   //Retornamos el usuario eliminado
-  return deletedUser;
+  return user;
 }
 
 /**
