@@ -35,10 +35,27 @@ async function createTodo(description, id_user) {
 }
 
 /**
+ * Funcion para eliminar una todo
+ * @param {Integer} id 
+ * @returns La todo eliminada
+ */
+async function deleteTodo(id) {
+  //Hacemos una peticion DELETE para eliminar una todo
+  const deletedTodo = await pool.query(`
+    DELETE 
+    FROM todos
+    WHERE id=4;
+  `);
+  //Retornamos la todo eliminada
+  return deletedTodo;
+}
+
+/**
  * Exporta todas las funciones
  * @exports
  */
 module.exports = {
   getTodos,
-  createTodo
+  createTodo,
+  deleteTodo
 }

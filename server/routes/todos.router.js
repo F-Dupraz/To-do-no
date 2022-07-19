@@ -1,7 +1,7 @@
 //Importamos express
 const express = require('express');
 //Importamos el servicio de todos
-const { getTodos, createTodo } = require('../services/todos.services');
+const { getTodos, createTodo, deleteTodo } = require('../services/todos.services');
 
 //Creamos el enrutador con express
 const router = express.Router();
@@ -32,6 +32,23 @@ router.post('/:id/todos', async (req, res, next) => {
     const body = req.body;
     //Insertamos una nueva todo con el createTodo
     const newTodo = await createTodo(body.description, body.id_users);
+    //Retornamos la todo
+    return res.json(newTodo);
+  }
+  //Si hay error
+  catch (err) {
+    //Mostramos el error en consola
+    console.error(err);
+  }
+});
+
+router.delete('/:id/todos', async (req, res, next) => {
+  //Si todo sale bien
+  try {
+    //Requerimos el cuerpo de la peticion
+    const body = req.body;
+    //Eliminamos una todo con el deleteTodo
+    const newTodo = await deleteTodo(body.id);
     //Retornamos la todo
     return res.json(newTodo);
   }
