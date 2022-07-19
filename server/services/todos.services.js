@@ -44,7 +44,7 @@ async function deleteTodo(id) {
   const deletedTodo = await pool.query(`
     DELETE 
     FROM todos
-    WHERE id=4;
+    WHERE id=${id};
   `);
   //Retornamos la todo eliminada
   return deletedTodo;

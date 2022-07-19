@@ -35,10 +35,27 @@ async function getNotes(id) {
 }
 
 /**
+ * Funcion para eliminar una nota
+ * @param {Integer} id 
+ * @returns La nota eliminada
+ */
+ async function deleteNote(id) {
+  //Hacemos una peticion DELETE para eliminar una nota
+  const deletedNote = await pool.query(`
+    DELETE 
+    FROM notes
+    WHERE id=${id};
+  `);
+  //Retornamos la nota eliminada
+  return deletedNote;
+}
+
+/**
  * Exporta todas las funciones
  * @exports
  */
  module.exports = {
   getNotes,
-  createNote
+  createNote,
+  deleteNote
 }

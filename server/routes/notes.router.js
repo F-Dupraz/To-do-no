@@ -1,7 +1,7 @@
 //Importamos express
 const express = require('express');
 //Importamos el servicio de notas
-const { getNotes, createNote } = require('../services/notes.services');
+const { getNotes, createNote, deleteNote } = require('../services/notes.services');
 
 //Creamos el enrutador con express
 const router = express.Router();
@@ -34,6 +34,23 @@ router.post('/:id/notes', async (req, res, next) => {
     const newNote = await createNote(body.content, body.id_users);
     //Retornamos la nota
     return res.json(newNote);
+  }
+  //Si hay error
+  catch (err) {
+    //Mostramos el error en consola
+    console.error(err);
+  }
+});
+
+router.delete('/:id/notes', async (req, res, next) => {
+  //Si todo sale bien
+  try {
+    //Requerimos el cuerpo de la peticion
+    const body = req.body;
+    //Eliminamos una nota con el deleteNote
+    const deletedNote = await deleteNote(body.id);
+    //Retornamos la nota
+    return res.json(deletedNote);
   }
   //Si hay error
   catch (err) {

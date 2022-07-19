@@ -48,9 +48,9 @@ router.delete('/:id/todos', async (req, res, next) => {
     //Requerimos el cuerpo de la peticion
     const body = req.body;
     //Eliminamos una todo con el deleteTodo
-    const newTodo = await deleteTodo(body.id);
+    const deletedTodo = await deleteTodo(body.id);
     //Retornamos la todo
-    return res.json(newTodo);
+    return res.json(deletedTodo);
   }
   //Si hay error
   catch (err) {
