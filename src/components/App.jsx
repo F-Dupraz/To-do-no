@@ -1,9 +1,12 @@
-import React from "react";
-import '../styles/global.scss';
+import React, { Fragment } from "react";
+import HomeContainer from "../containers/homeContainer";
+import "../styles/global.scss"
 
 const App = () => {
   return (
-    <h1>Hola, mundo!</h1>
+    <Fragment>
+      <HomeContainer />
+    </Fragment>
   );
 }
 
