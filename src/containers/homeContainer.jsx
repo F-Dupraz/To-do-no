@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import Header from "../components/header";
 import Login from "../components/login";
+import Footer from '../components/footer';
 import '../styles/home.scss';
 
 const HomeContainer = () => {
@@ -18,6 +19,7 @@ const HomeContainer = () => {
         </section>
         <Login />
       </main>
+      <Footer />
     </Fragment>
   );
 }
