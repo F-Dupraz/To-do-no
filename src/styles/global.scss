@@ -1,4 +1,10 @@
-$primary-color: rgba(250, 250, 250);
+$primary-color: #fafafa;
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
 
 body {
   padding: 0px;
