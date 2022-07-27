@@ -20,15 +20,24 @@ async function getUsers() {
 /**
  * Funcion para traer un usuario por email
  * @param {String} email 
+ * @param {String} password
  * @returns Un usuario en formato JSON
  */
-async function getUserByEmail(email) {
+async function getUserByEmail(email, password) {
   //Hacemos una query de SELECT y le pasamos como parametro el email
   const getUser = await pool.query(`
     SELECT *
     FROM users
     WHERE email = '${email}';
   `);
+  //Validamos que la contraseña sea la misma
+  const isMatch = await bcrypt.compare(password, getUser.password);
+  //Validamos si isMatch es falso
+  if(!isMatch) {
+    return new Error(`${email} no coincide la contraseña.`);
+  }
+  //Eliminamos la contraseña
+  delete user.dataValues.password;
   //Retornamos el usuario parseado a JSON
   return getUser;
 }
@@ -52,7 +61,7 @@ async function postUser(name, surname, email, phone_number, password) {
     RETURNING *;
   `);
   //Retornamos el nuevo usuario
-  return newUser;
+  return insertUser;
 }
 
 /**

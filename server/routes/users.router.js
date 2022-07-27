@@ -6,22 +6,6 @@ const { getUsers, postUser, getUserByEmail, updateUser, deleteUser } = require('
 //Creamos el enrutador con express
 const router = express.Router();
 
-//Hacemos una peticion para traer todos los usuarios
-router.get('/', async (req, res, next) => {
-  //Si todo sale bien
-  try {
-    //Buscamos todos los usuarios por medio del servicio
-    const users = await getUsers();
-    //Retornamos los usuarios
-    return res.json(users);
-  }
-  //Si hay error
-  catch (err) {
-    //Mostramos el error en consola
-    console.error(err);
-  }
-});
-
 //Hacemos una peticion para traer un usuario por email
 router.get('/', async (req, res, next) => {
   //Si todo sale bien
@@ -29,7 +13,7 @@ router.get('/', async (req, res, next) => {
     //Requerimos el email del cuerpo de la peticion
     const body = req.body;
     //Buscamos un usuario con el getUserByEmail 
-    const user = await getUserByEmail(body.email);
+    const user = await getUserByEmail(body.email, body.password);
     //Retornamos el usuario encontrado
     return res.json(user);
   }
